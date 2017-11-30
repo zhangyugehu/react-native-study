@@ -41,6 +41,7 @@ const RootNavigator = StackNavigator({
         screen: SecondScreen,
         navigationOptions: {
             title:'SecondScreen',
+            // 右滑返回
             gesturesEnabled:true,
         }
     },
