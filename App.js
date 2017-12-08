@@ -22,6 +22,9 @@ import ImageSourceStudy from './js/image_res/index'
 import AnimatedStudy from './js/anim/index'
 import NavigatorApp from './js/navigator/index'
 import PlatformView from './js/platform/index'
+import EventEmitterApp from './js/event_emitter/index'
+import NativeModuleApp from './js/native_module/LocationFactory'
+import ImagePickerComponent from './js/native_module/image_picker/ImagePickerComponent'
 
 
 export default class App extends Component<> {
@@ -36,7 +39,10 @@ export default class App extends Component<> {
         // return <ImageSourceStudy />
         // return <AnimatedStudy />
         // return <NavigatorApp />
-        return <PlatformView />
+        // return <PlatformView />
+        // return <EventEmitterApp />
+        // return <NativeModuleApp />
+        return <ImagePickerComponent />
     }
 
 }
