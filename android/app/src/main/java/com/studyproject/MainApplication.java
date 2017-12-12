@@ -3,6 +3,7 @@ package com.studyproject;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.modules.network.OkHttpClientProvider;
@@ -11,6 +12,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.microsoft.codepush.react.CodePush;
 import com.studyproject.reactpackage.ImagePickerPackage;
 import com.studyproject.reactpackage.LocationReactPackage;
 
@@ -32,14 +34,21 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+                    new ImagePickerPackage(),
                     new LocationReactPackage(),
-                    new ImagePickerPackage()
+                    new CodePush(BuildConfig.CODEPUSH_KEY, MainApplication.this, BuildConfig.DEBUG)
             );
         }
 
         @Override
         protected String getJSMainModuleName() {
             return "index";
+        }
+
+
+        @Override
+        protected String getJSBundleFile() {
+            return CodePush.getJSBundleFile();
         }
     };
 
