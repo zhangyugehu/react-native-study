@@ -70,14 +70,19 @@ export default class extends React.Component{
                         width = {width}
                         page={this.state.pageIndex}
                         pagers={this.state.pagers}
-                        onPageSelected={(e) => {
-                            let index = e.nativeEvent.position;
-                            this.setState({
-                                pageIndex: index
-                            })
-                    }}/>
+                        renderPager={this.renderPagers}
+                    />
             }
         </View>
+    }
+
+
+    renderPagers=()=>{
+        return this.state.pagers.map((item, index)=>{
+            return <View style={{flex: 1, justifyContent:'center', alignItems:'center', backgroundColor:'green'}} key={'index ' + index}>
+                <CustomView style={{flex: 1, backgroundColor:'yellow'}} content={item.content}/>
+            </View>
+        })
     }
 }
 
@@ -133,14 +138,22 @@ class WrapView2 extends Component{
         })
     }
 }
+
+/**
+ * props:
+ * width:tab指示器宽度
+ * pagers:tab页的数据
+ * renderPager：function
+ */
 class WrapViewPager extends React.Component{
 
     constructor(props){
         super(props);
         let width = this.props.width / this.props.pagers.length
         this.state={
+            page:0,
             width,
-            marginLeft: width * this.props.page,
+            marginLeft: width * (this.props.defaultPage || 0),
         }
     }
 
@@ -181,25 +194,20 @@ class WrapViewPager extends React.Component{
             />
             <ViewPagerAndroid
                 style={{flex: 1, backgroundColor:'gray'}}
-                initialPage={this.props.page || 0}//初始页面下标
-                onLayout={(event)=>{
-                    console.warn(JSON.stringify(event.nativeEvent.layout))
-                }}
+                initialPage={this.props.defaultPage || 0}//初始页面下标
                 ref={viewpager=>{this.viewpager=viewpager}}
-
                 scrollEventThrottle={5}
-                onPageSelected={this.props.onPageSelected} >
-                {this.renderPagers()}
+                onPageSelected={(e) => {
+                    let index = e.nativeEvent.position;
+                    this.setState({
+                        page: index
+                    });
+                    this.switchToTab(index);
+                    this.props.onPageSelected && this.props.onPageSelected();
+                }} >
+                {this.props.renderPager()}
             </ViewPagerAndroid>
         </View>
-    }
-
-    renderPagers=()=>{
-        return this.props.pagers.map((item, index)=>{
-            return <View style={{flex: 1, justifyContent:'center', alignItems:'center', backgroundColor:'green'}} key={'index ' + index}>
-                <CustomView style={{flex: 1, backgroundColor:'yellow'}} content={item.content}/>
-            </View>
-        })
     }
 }
 
